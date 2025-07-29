@@ -11,6 +11,8 @@ import { Button, Icon } from "@rneui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import FormInput from "../../components/form-elements/FormInput";
+import { login } from "../../services/auth";
+import { useRouter } from "expo-router";
 
 const validationSchema = z.object({
     email: z.email("Please enter a valid email address."),
@@ -22,6 +24,7 @@ type LoginFormFields = z.infer<typeof validationSchema>;
 const defaultValues: LoginFormFields = { email: "", password: "" };
 
 export default function LoginScreen() {
+    const router = useRouter();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const form = useForm<LoginFormFields>({
@@ -29,8 +32,15 @@ export default function LoginScreen() {
         resolver: zodResolver(validationSchema),
     });
 
-    const handlePress = form.handleSubmit((values) => {
-        console.log(JSON.stringify(values, null, 2));
+    const handlePress = form.handleSubmit(async (values) => {
+        try {
+            const res = await login(values);
+            form.reset(defaultValues);
+            console.log(res.data);
+            router.push("/");
+        } catch (err) {
+            console.log(err);
+        }
     });
 
     return (

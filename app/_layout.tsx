@@ -1,12 +1,11 @@
 import React from "react";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
+import { AuthContextProvider } from "../context/AuthContext";
 
 export default function RootLayout() {
     return (
-        <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="forgot-password" />
-            <Stack.Screen name="register" />
-        </Stack>
+        <AuthContextProvider>
+            <Slot />
+        </AuthContextProvider>
     );
 }
