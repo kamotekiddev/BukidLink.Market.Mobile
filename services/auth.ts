@@ -12,3 +12,6 @@ interface AuthResponse {
 
 export const login = (data: AuthCredentials) =>
     client.post<AuthResponse>("/auth/login", data);
+
+export const refresh = (refreshToken: string) =>
+    client.post<AuthResponse>("/auth/refresh", { refreshToken });

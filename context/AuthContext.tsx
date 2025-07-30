@@ -6,6 +6,7 @@ import React, {
     useEffect,
     useState,
 } from "react";
+import { TokenType } from "../constants";
 
 interface Credentials {
     accessToken: string;
@@ -17,11 +18,6 @@ interface AuthContextState {
     login: (credentials: Credentials) => void;
     logout: () => void;
     isLoading: boolean;
-}
-
-enum TokenType {
-    ACCESS_TOKEN = "accessToken",
-    REFRESH_TOKEN = "refreshToken",
 }
 
 const AuthContext = createContext<AuthContextState | null>(null);
