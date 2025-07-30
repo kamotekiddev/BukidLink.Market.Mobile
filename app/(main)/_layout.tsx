@@ -18,6 +18,24 @@ export default function MainLayout() {
                 }}
             />
             <Tabs.Screen
+                name="shop"
+                options={{
+                    tabBarIcon: () => (
+                        <Icon type="feather" name="shopping-bag" />
+                    ),
+                    tabBarLabel: "Shop",
+                }}
+            />
+            <Tabs.Screen
+                name="cart"
+                options={{
+                    tabBarIcon: () => (
+                        <Icon type="feather" name="shopping-cart" />
+                    ),
+                    tabBarLabel: "Cart",
+                }}
+            />
+            <Tabs.Screen
                 name="profile"
                 options={{
                     tabBarIcon: () => <Icon type="feather" name="user" />,

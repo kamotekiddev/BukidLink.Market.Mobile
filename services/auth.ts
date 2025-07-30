@@ -5,5 +5,10 @@ interface AuthCredentials {
     password: string;
 }
 
+interface AuthResponse {
+    accessToken: string;
+    refreshToken: string;
+}
+
 export const login = (data: AuthCredentials) =>
-    client.post("/auth/login", data);
+    client.post<AuthResponse>("/auth/login", data);

@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "../../components/form-elements/FormInput";
 import { login } from "../../services/auth";
 import { useRouter } from "expo-router";
+import { useAuthContext } from "../../context/AuthContext";
 
 const validationSchema = z.object({
     email: z.email("Please enter a valid email address."),
@@ -24,6 +25,7 @@ type LoginFormFields = z.infer<typeof validationSchema>;
 const defaultValues: LoginFormFields = { email: "", password: "" };
 
 export default function LoginScreen() {
+    const ctx = useAuthContext();
     const router = useRouter();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -35,8 +37,8 @@ export default function LoginScreen() {
     const handlePress = form.handleSubmit(async (values) => {
         try {
             const res = await login(values);
+            ctx.login(res.data);
             form.reset(defaultValues);
-            console.log(res.data);
             router.push("/");
         } catch (err) {
             console.log(err);
