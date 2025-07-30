@@ -1,8 +1,12 @@
 import { client } from "./client";
 
-interface AuthCredentials {
+interface LoginDetails {
     email: string;
     password: string;
+}
+
+interface RegisterDetails extends LoginDetails {
+    name: string;
 }
 
 interface AuthResponse {
@@ -10,8 +14,11 @@ interface AuthResponse {
     refreshToken: string;
 }
 
-export const login = (data: AuthCredentials) =>
+export const login = (data: LoginDetails) =>
     client.post<AuthResponse>("/auth/login", data);
+
+export const register = (data: RegisterDetails) =>
+    client.post<AuthResponse>("/auth/register", data);
 
 export const refresh = (refreshToken: string) =>
     client.post<AuthResponse>("/auth/refresh", { refreshToken });

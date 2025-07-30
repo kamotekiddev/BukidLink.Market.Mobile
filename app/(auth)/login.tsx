@@ -5,14 +5,15 @@ import {
     SafeAreaView,
     KeyboardAvoidingView,
     Platform,
+    Text,
 } from "react-native";
+import { Link } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button, Icon } from "@rneui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import FormInput from "../../components/form-elements/FormInput";
 import { login } from "../../services/auth";
-import { useRouter } from "expo-router";
 import { useAuthContext } from "../../context/AuthContext";
 
 const validationSchema = z.object({
@@ -26,7 +27,6 @@ const defaultValues: LoginFormFields = { email: "", password: "" };
 
 export default function LoginScreen() {
     const ctx = useAuthContext();
-    const router = useRouter();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const form = useForm<LoginFormFields>({
@@ -39,7 +39,6 @@ export default function LoginScreen() {
             const res = await login(values);
             ctx.login(res.data);
             form.reset(defaultValues);
-            router.push("/");
         } catch (err) {
             console.log(err);
         }
@@ -51,7 +50,7 @@ export default function LoginScreen() {
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : undefined}
                     keyboardVerticalOffset={20}
-                    style={{ width: "100%", padding: 10 }}
+                    style={styles.itemsContainer}
                 >
                     <FormInput
                         name="email"
@@ -74,7 +73,16 @@ export default function LoginScreen() {
                             />
                         }
                     />
-                    <Button title="Login" type="solid" onPress={handlePress} />
+                    <Link href="/forgot-password" style={styles.link}>
+                        Forgot Password?
+                    </Link>
+                    <Button title="Login" onPress={handlePress} />
+                    <Text>
+                        Doesn't have an account?{" "}
+                        <Link href="/register" style={styles.link}>
+                            Create
+                        </Link>
+                    </Text>
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </FormProvider>
@@ -86,5 +94,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    itemsContainer: { rowGap: 10, width: "100%", padding: 10 },
+    link: {
+        fontWeight: "bold",
+        color: "blue",
     },
 });
