@@ -3,7 +3,7 @@ import { Redirect, Tabs } from "expo-router";
 import { useAuthContext } from "../../context/AuthContext";
 import { Icon } from "@rneui/themed";
 
-export default function MainLayout() {
+export default function TabsLayout() {
     const { isAuthenticated, isLoading } = useAuthContext();
 
     if (!isAuthenticated && !isLoading) return <Redirect href="/login" />;
@@ -18,12 +18,12 @@ export default function MainLayout() {
                 }}
             />
             <Tabs.Screen
-                name="shop"
+                name="shops"
                 options={{
                     tabBarIcon: () => (
                         <Icon type="feather" name="shopping-bag" />
                     ),
-                    tabBarLabel: "Shop",
+                    tabBarLabel: "Marketplace",
                 }}
             />
             <Tabs.Screen

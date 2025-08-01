@@ -7,6 +7,7 @@ interface LoginDetails {
 
 interface RegisterDetails extends LoginDetails {
     name: string;
+    role: "Farmer" | "User";
 }
 
 interface AuthResponse {
@@ -19,6 +20,3 @@ export const login = (data: LoginDetails) =>
 
 export const register = (data: RegisterDetails) =>
     client.post<AuthResponse>("/auth/register", data);
-
-export const refresh = (refreshToken: string) =>
-    client.post<AuthResponse>("/auth/refresh", { refreshToken });
