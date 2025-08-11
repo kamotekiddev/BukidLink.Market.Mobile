@@ -1,11 +1,22 @@
 import React from "react";
-import { Slot } from "expo-router";
-import { AuthContextProvider } from "../context/AuthContext";
+import { Stack } from "expo-router";
+import { AuthContextProvider } from "@/context/AuthContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
     return (
-        <AuthContextProvider>
-            <Slot />
-        </AuthContextProvider>
+        <QueryClientProvider client={queryClient}>
+            <AuthContextProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen
+                        name="cart"
+                        options={{ presentation: "modal" }}
+                    />
+                    <Stack.Screen name="tabs" />
+                </Stack>
+            </AuthContextProvider>
+        </QueryClientProvider>
     );
 }
