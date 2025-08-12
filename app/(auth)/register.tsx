@@ -6,8 +6,9 @@ import {
     Platform,
     ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
+import Icon from "react-native-vector-icons/Feather";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { register } from "@/services/auth";
@@ -27,6 +28,7 @@ const defaultValues: RegisterFormFields = { email: "", password: "", name: "" };
 
 export default function Register() {
     const ctx = useAuthContext();
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const form = useForm<RegisterFormFields>({
         defaultValues,
         resolver: zodResolver(validationSchema),
@@ -52,19 +54,30 @@ export default function Register() {
                         <FormInput
                             autoCapitalize="none"
                             name="email"
-                            label="Email*"
+                            label="Email"
                             placeholder="Enter your email"
+                            required
                         />
                         <FormInput
                             name="name"
-                            label="Full Name*"
+                            label="Full Name"
                             placeholder="Enter your full name"
+                            required
                         />
                         <FormInput
-                            label="Password*"
                             name="password"
-                            secureTextEntry
-                            placeholder="Enter your password"
+                            label="Password"
+                            secureTextEntry={!isPasswordVisible}
+                            placeholder="Your Password"
+                            required
+                            rightIcon={
+                                <Icon
+                                    name={isPasswordVisible ? "eye" : "eye-off"}
+                                    onPress={() =>
+                                        setIsPasswordVisible((prev) => !prev)
+                                    }
+                                />
+                            }
                         />
                         <Text style={{ marginVertical: 10 }}>
                             Already have an account?{" "}

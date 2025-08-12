@@ -10,6 +10,7 @@ import {
 import { Link } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Icon from "react-native-vector-icons/Feather";
 
 import FormInput from "@/components/form-elements/FormInput";
 import ThemedButton from "@/components/button";
@@ -58,21 +59,22 @@ export default function LoginScreen() {
                             label="Email*"
                             placeholder="example@email.com"
                             autoCapitalize="none"
+                            required
                         />
                         <FormInput
                             name="password"
-                            label="Password*"
+                            label="Password"
                             secureTextEntry={!isPasswordVisible}
                             placeholder="Your Password"
-                            // rightIcon={
-                            //     <Icon
-                            //         type="feather"
-                            //         name={isPasswordVisible ? "eye" : "eye-off"}
-                            //         onPress={() =>
-                            //             setIsPasswordVisible((prev) => !prev)
-                            //         }
-                            //     />
-                            // }
+                            rightIcon={
+                                <Icon
+                                    name={isPasswordVisible ? "eye" : "eye-off"}
+                                    onPress={() =>
+                                        setIsPasswordVisible((prev) => !prev)
+                                    }
+                                />
+                            }
+                            required
                         />
                         <Link href="/forgot-password">Forgot Password?</Link>
                         <ThemedButton title="Login" onPress={handlePress} />
