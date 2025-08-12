@@ -15,7 +15,7 @@ export default function ProduceList() {
             renderItem={({ item }) => (
                 <ProduceCard
                     produce={item}
-                    onPress={(produce) => router.push(`/produce/${produce.id}`)}
+                    onPress={() => router.push(`/produce/${item.id}`)}
                 />
             )}
             numColumns={2}

@@ -5,14 +5,14 @@ import { formatCurrency } from "@/utils";
 
 interface ProduceCardProps {
     produce: Produce;
-    onPress: (produce: Produce) => void;
+    onPress: () => void;
 }
 
 export default function ProduceCard({ produce, onPress }: ProduceCardProps) {
     return (
         <TouchableOpacity
             className="flex-1 bg-white rounded-2xl overflow-hidden"
-            onPress={() => onPress(produce)}
+            onPress={onPress}
         >
             <Image
                 className="h-48"
