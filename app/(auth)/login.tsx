@@ -1,20 +1,22 @@
 import { z } from "zod";
 import { useState } from "react";
 import {
-    StyleSheet,
     SafeAreaView,
     KeyboardAvoidingView,
     Platform,
     Text,
+    ScrollView,
 } from "react-native";
 import { Link } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, Icon } from "@rneui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Icon from "react-native-vector-icons/Feather";
 
-import FormInput from "../../components/form-elements/FormInput";
-import { login } from "../../services/auth";
-import { useAuthContext } from "../../context/AuthContext";
+import FormInput from "@/components/form-elements/FormInput";
+import ThemedButton from "@/components/button";
+
+import { login } from "@/services/auth";
+import { useAuthContext } from "@/context/AuthContext";
 
 const validationSchema = z.object({
     email: z.email("Please enter a valid email address."),
@@ -46,58 +48,43 @@ export default function LoginScreen() {
 
     return (
         <FormProvider {...form}>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView className="justify-center flex-1">
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : undefined}
                     keyboardVerticalOffset={20}
-                    style={styles.itemsContainer}
                 >
-                    <FormInput
-                        name="email"
-                        label="Email*"
-                        placeholder="example@email.com"
-                        autoCapitalize="none"
-                    />
-                    <FormInput
-                        name="password"
-                        label="Password*"
-                        secureTextEntry={!isPasswordVisible}
-                        placeholder="Your Password"
-                        rightIcon={
-                            <Icon
-                                type="feather"
-                                name={isPasswordVisible ? "eye" : "eye-off"}
-                                onPress={() =>
-                                    setIsPasswordVisible((prev) => !prev)
-                                }
-                            />
-                        }
-                    />
-                    <Link href="/forgot-password" style={styles.link}>
-                        Forgot Password?
-                    </Link>
-                    <Button title="Login" onPress={handlePress} />
-                    <Text>
-                        Doesn't have an account?{" "}
-                        <Link href="/register" style={styles.link}>
-                            Create
-                        </Link>
-                    </Text>
+                    <ScrollView contentContainerClassName="gap-y-4 p-5">
+                        <FormInput
+                            name="email"
+                            label="Email*"
+                            placeholder="example@email.com"
+                            autoCapitalize="none"
+                            required
+                        />
+                        <FormInput
+                            name="password"
+                            label="Password"
+                            secureTextEntry={!isPasswordVisible}
+                            placeholder="Your Password"
+                            rightIcon={
+                                <Icon
+                                    name={isPasswordVisible ? "eye" : "eye-off"}
+                                    onPress={() =>
+                                        setIsPasswordVisible((prev) => !prev)
+                                    }
+                                />
+                            }
+                            required
+                        />
+                        <Link href="/forgot-password">Forgot Password?</Link>
+                        <ThemedButton title="Login" onPress={handlePress} />
+                        <Text>
+                            Doesn't have an account?{" "}
+                            <Link href="/register">Create</Link>
+                        </Text>
+                    </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </FormProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    itemsContainer: { rowGap: 10, width: "100%", padding: 10 },
-    link: {
-        fontWeight: "bold",
-        color: "blue",
-    },
-});

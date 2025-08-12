@@ -1,9 +1,15 @@
-import React from "react";
-import { Input, type InputProps } from "@rneui/themed";
+import { type ReactNode } from "react";
+import { TextInputProps } from "react-native";
 import { Controller, useFormContext } from "react-hook-form";
+import Input from "@/components/inputs/Input";
 
-interface Props extends Omit<InputProps, "value" | "onChangeText"> {
+interface Props
+    extends Omit<TextInputProps, "value" | "onChangeText" | "onBlur"> {
     name: string;
+    label?: string;
+    required?: boolean;
+    leftIcon?: ReactNode;
+    rightIcon?: ReactNode;
 }
 
 export default function FormInput({ name, ...props }: Props) {
@@ -12,16 +18,16 @@ export default function FormInput({ name, ...props }: Props) {
     return (
         <Controller
             control={control}
+            name={name}
             render={({ field, fieldState: { error } }) => (
                 <Input
                     {...props}
                     value={field.value}
-                    onBlur={field.onBlur}
                     onChangeText={field.onChange}
+                    onBlur={(_e) => field.onBlur()}
                     errorMessage={error?.message}
                 />
             )}
-            name={name}
         />
     );
 }

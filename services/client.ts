@@ -3,7 +3,6 @@ import * as secureStore from "expo-secure-store";
 import { API_URL } from "@env";
 
 import { TokenType } from "../constants";
-import { refresh } from "./auth";
 
 export const client = axios.create({ baseURL: API_URL });
 
@@ -32,7 +31,7 @@ client.interceptors.response.use(
 
             const {
                 data: { accessToken },
-            } = await refresh(refreshToken ?? "");
+            } = await axios.post("/refresh", { refreshToken: refreshToken });
 
             await secureStore.setItemAsync(TokenType.ACCESS_TOKEN, accessToken);
 
