@@ -1,76 +1,63 @@
-import { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { Button, Image } from "@rneui/themed";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+    Text,
+    View,
+    Image,
+    TouchableOpacity,
+    ScrollView,
+    SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/Feather";
+import ThemedButton from "@/components/button";
 
 import { formatCurrency } from "@/utils";
 import { useGetProduceById } from "@/features/produce/useGetProduceById";
-import QuantityIncrementor from "@/components/QuantityIncrementor";
 
 type SearchParams = {
     produceId: string;
 };
 
-const MIN_QUANTITY = 1;
-
 export default function ProduceDetails() {
-    const [quantity, setQuantity] = useState(1);
+    const router = useRouter();
     const { produceId } = useLocalSearchParams<SearchParams>();
     const { data: produce } = useGetProduceById(produceId);
 
     if (!produce) return;
 
-    const handleIncrement = () => setQuantity((prev) => prev + 1);
-    const handleDecrement = () =>
-        quantity > MIN_QUANTITY && setQuantity((prev) => prev - 1);
-
     return (
-        <View style={styles.full}>
-            <Image
-                style={{ resizeMode: "cover", height: 300 }}
-                source={{ uri: produce.photoUrl }}
-            />
-            <View style={styles.container}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{produce.name}</Text>
-                    <Text style={styles.title}>
-                        {formatCurrency(produce.price)}
-                    </Text>
-                </View>
-                <Text>{produce.description}</Text>
+        <SafeAreaView className="h-full">
+            <View className="justify-between flex-row items-center px-4 mb-4">
+                <TouchableOpacity onPress={() => router.back()}>
+                    <Icon name="arrow-left" color="#0A400C" size={20} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push(`/cart`)}>
+                    <Icon name="shopping-cart" color="#0A400C" size={22} />
+                </TouchableOpacity>
             </View>
-            <View style={styles.actionsContainer}>
-                <QuantityIncrementor
-                    quantity={quantity}
-                    onIncrement={handleIncrement}
-                    onDecrement={handleDecrement}
+            <ScrollView className="gap-y-4">
+                <Image
+                    className="h-64 object-cover"
+                    source={{ uri: produce.photoUrl }}
                 />
-                <Button title="Add to Cart" radius="xl" size="md" />
+                <View className="p-4 gap-y-4">
+                    <View className="flex-row justify-between">
+                        <Text className="font-bold text-lg">
+                            {produce.name}
+                        </Text>
+                        <Text className="font-bold text-lg">
+                            {formatCurrency(produce.price)}
+                        </Text>
+                    </View>
+                    <Text>{produce.description}</Text>
+                </View>
+            </ScrollView>
+            <View className="absolute bottom-0 flex-row gap-x-4 p-4 w-full">
+                <ThemedButton title="Add to Cart" variant="outline" />
+                <ThemedButton
+                    title="Buy Now"
+                    onPress={() => router.push("/checkout")}
+                />
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    full: { flex: 1 },
-    container: { padding: 10, rowGap: 10, flex: 1 },
-    titleContainer: {
-        flexDirection: "row",
-        columnGap: 10,
-        justifyContent: "space-between",
-    },
-    title: {
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    actionsContainer: {
-        flexDirection: "row",
-        position: "absolute",
-        bottom: 0,
-        padding: 10,
-        paddingHorizontal: 20,
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "100%",
-    },
-});

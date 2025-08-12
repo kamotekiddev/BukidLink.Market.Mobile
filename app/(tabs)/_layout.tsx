@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect, Tabs } from "expo-router";
-import { useAuthContext } from "../../context/AuthContext";
-import { Icon } from "@rneui/themed";
+import Icon from "react-native-vector-icons/Feather";
+
+import { useAuthContext } from "@/context/AuthContext";
 
 export default function MainLayout() {
     const { isAuthenticated, isLoading } = useAuthContext();
@@ -9,37 +10,38 @@ export default function MainLayout() {
     if (!isAuthenticated && !isLoading) return <Redirect href="/login" />;
 
     return (
-        <Tabs screenOptions={{ headerShown: false }}>
+        <Tabs
+            screenOptions={{
+                headerShown: false,
+                // tabBarInactiveTintColor: theme.colors.background,
+                // tabBarActiveTintColor: theme.colors.primary,
+            }}
+        >
             <Tabs.Screen
                 name="index"
                 options={{
-                    tabBarIcon: () => <Icon type="feather" name="home" />,
+                    tabBarIcon: ({ color }) => (
+                        <Icon size={20} name="home" color={color} />
+                    ),
                     tabBarLabel: "Home",
                 }}
             />
             <Tabs.Screen
                 name="shop"
                 options={{
-                    tabBarIcon: () => (
-                        <Icon type="feather" name="shopping-bag" />
+                    tabBarIcon: ({ color }) => (
+                        <Icon size={20} name="shopping-bag" color={color} />
                     ),
                     tabBarLabel: "Shop",
                 }}
             />
             <Tabs.Screen
-                name="cart"
-                options={{
-                    tabBarIcon: () => (
-                        <Icon type="feather" name="shopping-cart" />
-                    ),
-                    tabBarLabel: "Cart",
-                }}
-            />
-            <Tabs.Screen
                 name="profile"
                 options={{
-                    tabBarIcon: () => <Icon type="feather" name="user" />,
-                    tabBarLabel: "Profile",
+                    tabBarIcon: ({ color }) => (
+                        <Icon size={20} name="user" color={color} />
+                    ),
+                    tabBarLabel: "Account",
                 }}
             />
         </Tabs>

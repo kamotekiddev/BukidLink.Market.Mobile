@@ -1,7 +1,6 @@
-import React from "react";
-import { SafeAreaView } from "react-native";
-import { Button, Icon } from "@rneui/base";
-import { useAuthContext } from "../../context/AuthContext";
+import { Button, SafeAreaView } from "react-native";
+import { useAuthContext } from "@/context/AuthContext";
+import Icon from "react-native-vector-icons/AntDesign";
 
 export default function Profile() {
     const ctx = useAuthContext();
@@ -13,16 +12,16 @@ export default function Profile() {
             <Button
                 onPress={handleLogout}
                 title="Logout"
-                icon={
-                    <Icon
-                        type="antdesign"
-                        name="logout"
-                        color="white"
-                        size={18}
-                        style={{ marginLeft: 10 }}
-                    />
-                }
-                iconRight
+                // icon={
+                //     <Icon
+                //         type="antdesign"
+                //         name="logout"
+                //         color="white"
+                //         size={18}
+                //         style={{ marginLeft: 10 }}
+                //     />
+                // }
+                // iconRight
             />
         </SafeAreaView>
     );

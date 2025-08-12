@@ -1,19 +1,19 @@
+import { Link } from "expo-router";
 import {
     Text,
     SafeAreaView,
-    StyleSheet,
     KeyboardAvoidingView,
     Platform,
+    ScrollView,
 } from "react-native";
 import React from "react";
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "../../components/form-elements/FormInput";
-import { Button } from "@rneui/base";
-import { register } from "../../services/auth";
-import { useAuthContext } from "../../context/AuthContext";
-import { Link } from "expo-router";
+import { register } from "@/services/auth";
+import { useAuthContext } from "@/context/AuthContext";
+import FormInput from "@/components/form-elements/FormInput";
+import ThemedButton from "@/components/button";
 
 const validationSchema = z.object({
     email: z.email("Please enter a valid email."),
@@ -43,50 +43,40 @@ export default function Register() {
 
     return (
         <FormProvider {...form}>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView className="flex-1 justify-center">
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : undefined}
                     keyboardVerticalOffset={20}
-                    style={{ width: "100%", padding: 10 }}
                 >
-                    <FormInput
-                        autoCapitalize="none"
-                        name="email"
-                        label="Email"
-                        placeholder="example@email.com"
-                    />
-                    <FormInput
-                        name="name"
-                        label="Full Name"
-                        placeholder="Last Name, First Name, Middle Name"
-                    />
-                    <FormInput
-                        name="password"
-                        secureTextEntry
-                        placeholder="Enter your password"
-                    />
-                    <Text style={{ marginVertical: 10 }}>
-                        Already have an account?{" "}
-                        <Link href="/login" style={styles.link}>
-                            Login
-                        </Link>
-                    </Text>
-                    <Button title="Create Account" onPress={handlePress} />
+                    <ScrollView contentContainerClassName="gap-y-4 p-5">
+                        <FormInput
+                            autoCapitalize="none"
+                            name="email"
+                            label="Email*"
+                            placeholder="Enter your email"
+                        />
+                        <FormInput
+                            name="name"
+                            label="Full Name*"
+                            placeholder="Enter your full name"
+                        />
+                        <FormInput
+                            label="Password*"
+                            name="password"
+                            secureTextEntry
+                            placeholder="Enter your password"
+                        />
+                        <Text style={{ marginVertical: 10 }}>
+                            Already have an account?{" "}
+                            <Link href="/login">Login</Link>
+                        </Text>
+                        <ThemedButton
+                            title="Create Account"
+                            onPress={handlePress}
+                        />
+                    </ScrollView>
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </FormProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    link: {
-        fontWeight: "bold",
-        color: "blue",
-    },
-});

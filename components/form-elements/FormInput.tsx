@@ -1,9 +1,10 @@
-import React from "react";
-import { Input, type InputProps } from "@rneui/themed";
+import { TextInputProps } from "react-native";
 import { Controller, useFormContext } from "react-hook-form";
+import Input from "@/components/inputs/Input";
 
-interface Props extends Omit<InputProps, "value" | "onChangeText"> {
+interface Props extends Omit<TextInputProps, "value" | "onChangeText"> {
     name: string;
+    label?: string;
 }
 
 export default function FormInput({ name, ...props }: Props) {
@@ -18,7 +19,7 @@ export default function FormInput({ name, ...props }: Props) {
                     value={field.value}
                     onBlur={field.onBlur}
                     onChangeText={field.onChange}
-                    errorMessage={error?.message}
+                    // errorMessage={error?.message}
                 />
             )}
             name={name}

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Button } from "@rneui/themed";
+import { Button, Icon, useTheme } from "@rneui/themed";
+import ThemedButton from "@/components/buttons/ThemedButton";
 
 interface QuantityIncrementorProps {
     quantity: number;
@@ -13,15 +14,25 @@ export default function QuantityIncrementor({
     onDecrement,
     onIncrement,
 }: QuantityIncrementorProps) {
+    const { theme } = useTheme();
+
     return (
-        <View style={styles.container}>
-            <Button
+        <View style={[styles.container, {}]}>
+            <ThemedButton
+                radius="xl"
+                size="md"
+                variant="outline"
                 buttonStyle={styles.actionBtn}
-                type="outline"
-                onPress={onIncrement}
+                titleStyle={styles.actionBtnText}
+                onPress={onDecrement}
             >
-                +
-            </Button>
+                <Icon
+                    type="feather"
+                    name="minus"
+                    size={18}
+                    color={theme.colors.primary}
+                />
+            </ThemedButton>
             <Text
                 style={{
                     fontSize: 16,
@@ -33,13 +44,21 @@ export default function QuantityIncrementor({
             >
                 {quantity}
             </Text>
-            <Button
+            <ThemedButton
+                radius="xl"
+                size="md"
+                variant="outline"
+                titleStyle={styles.actionBtnText}
                 buttonStyle={styles.actionBtn}
-                type="outline"
-                onPress={onDecrement}
+                onPress={onIncrement}
             >
-                -
-            </Button>
+                <Icon
+                    type="feather"
+                    name="plus"
+                    color={theme.colors.primary}
+                    size={18}
+                />
+            </ThemedButton>
         </View>
     );
 }
@@ -49,13 +68,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         columnGap: 10,
+        borderRadius: 40,
+        padding: 5,
+        justifyContent: "space-between",
     },
     actionBtn: {
-        padding: 0,
-        alignItems: "center",
-        justifyContent: "center",
-        width: 40,
-        height: 30,
-        borderRadius: 10,
+        minWidth: 50,
+    },
+    actionBtnText: {
+        fontSize: 14,
+        fontWeight: "bold",
     },
 });
