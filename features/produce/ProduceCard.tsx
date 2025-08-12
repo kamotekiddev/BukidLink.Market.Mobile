@@ -1,6 +1,6 @@
 import { Text, View, TouchableOpacity, Image } from "react-native";
 
-import { Produce } from "@/types/produce";
+import { Produce } from "@/features/produce/types";
 import { formatCurrency } from "@/utils";
 
 interface ProduceCardProps {

@@ -1,6 +1,6 @@
 import { client } from "./client";
 
-import { Produce } from "@/types/produce";
+import { Produce } from "@/features/produce/types";
 
 export const getAllProduce = () =>
     client.get<Produce[]>("/produce").then((res) => res.data);
