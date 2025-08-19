@@ -1,14 +1,14 @@
 import { Text, View, TouchableOpacity, Image } from "react-native";
 
-import { Produce } from "@/features/produce/types";
+import { Product } from "@/features/product/types";
 import { formatCurrency } from "@/utils";
 
 interface ProduceCardProps {
-    produce: Produce;
+    produce: Product;
     onPress: () => void;
 }
 
-export default function ProduceCard({ produce, onPress }: ProduceCardProps) {
+export default function ProductCard({ produce, onPress }: ProduceCardProps) {
     return (
         <TouchableOpacity
             className="flex-1 bg-white rounded-2xl overflow-hidden"

@@ -8,11 +8,11 @@ import SectionHeader from "@/features/home/SectionHeader";
 
 import { useHomeFilters } from "@/features/home/useHomeFilters";
 import { mockProducts, HOME_CATEGORIES } from "@/features/home/mock";
-import type { Produce } from "@/features/produce/types";
+import type { Product } from "@/features/product/types";
 import ProductCard from "@/features/home/ProductCard"; // Adjust path if needed
 
 // Extend your Produce type non-destructively so this UI can work with a variety of shapes.
-type ExtendedProduce = Produce & {
+type ExtendedProduce = Product & {
     imageUrl?: string;
     category?: string;
     isFeatured?: boolean;

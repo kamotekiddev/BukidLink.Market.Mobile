@@ -1,19 +1,19 @@
 import { useRouter } from "expo-router";
 import { FlatList } from "react-native";
 
-import { useGetAllProduce } from "./useGetAllProduce";
-import ProduceCard from "./ProduceCard";
+import { useGetAllProducts } from "./useGetAllProducts";
+import ProductCard from "./ProductCard";
 
-export default function ProduceList() {
+export default function ProductList() {
     const router = useRouter();
-    const { data: produce } = useGetAllProduce();
+    const { data: produce } = useGetAllProducts();
 
     return (
         <FlatList
             data={produce}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-                <ProduceCard
+                <ProductCard
                     produce={item}
                     onPress={() => router.push(`/produce/${item.id}`)}
                 />

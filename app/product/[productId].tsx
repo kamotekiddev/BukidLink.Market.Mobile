@@ -11,18 +11,18 @@ import Icon from "react-native-vector-icons/Feather";
 import ThemedButton from "@/components/button";
 
 import { formatCurrency } from "@/utils";
-import { useGetProduceById } from "@/features/produce/useGetProduceById";
+import { useGetProductById } from "@/features/product/useGetProductById";
 
 type SearchParams = {
-    produceId: string;
+    productId: string;
 };
 
 export default function ProduceDetails() {
     const router = useRouter();
-    const { produceId } = useLocalSearchParams<SearchParams>();
-    const { data: produce } = useGetProduceById(produceId);
+    const { productId } = useLocalSearchParams<SearchParams>();
+    const { data: product } = useGetProductById(productId);
 
-    if (!produce) return;
+    if (!product) return;
 
     return (
         <SafeAreaView className="h-full">
@@ -37,18 +37,18 @@ export default function ProduceDetails() {
             <ScrollView className="gap-y-4">
                 <Image
                     className="h-64 object-cover"
-                    source={{ uri: produce.photoUrl }}
+                    source={{ uri: product.photoUrl }}
                 />
                 <View className="p-4 gap-y-4">
                     <View className="flex-row justify-between">
                         <Text className="font-bold text-lg">
-                            {produce.name}
+                            {product.name}
                         </Text>
                         <Text className="font-bold text-lg">
-                            {formatCurrency(produce.price)}
+                            {formatCurrency(product.price)}
                         </Text>
                     </View>
-                    <Text>{produce.description}</Text>
+                    <Text>{product.description}</Text>
                 </View>
             </ScrollView>
             <View className="absolute bottom-0 flex-row gap-x-4 p-4 w-full">

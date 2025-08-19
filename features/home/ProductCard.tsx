@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, Image, Pressable } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Produce } from "@/features/produce/types";
+import { Product } from "@/features/product/types";
 
-type ExtendedProduce = Produce & {
+type ExtendedProduce = Product & {
     imageUrl?: string;
     category?: string;
     isFeatured?: boolean;

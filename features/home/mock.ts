@@ -1,6 +1,6 @@
-import { Produce } from "@/features/produce/types";
+import { Product } from "@/features/product/types";
 
-type ExtendedProduce = Produce & {
+type ExtendedProduce = Product & {
     imageUrl?: string;
     category?: string;
     isFeatured?: boolean;

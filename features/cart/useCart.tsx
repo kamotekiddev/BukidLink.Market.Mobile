@@ -6,7 +6,7 @@ import React, {
     useReducer,
 } from "react";
 import { CartItem } from "@/features/cart/types";
-import { Produce } from "@/features/produce/types";
+import { Product } from "@/features/product/types";
 
 type CartState = {
     items: CartItem[];
@@ -19,7 +19,7 @@ type CartContextValue = {
     selectedCount: number;
     selectedSubtotal: number;
 
-    addToCart: (product: Produce, quantity?: number) => void;
+    addToCart: (product: Product, quantity?: number) => void;
     removeFromCart: (productId: string) => void;
     increaseQty: (productId: string) => void;
     decreaseQty: (productId: string) => void;
@@ -32,7 +32,7 @@ type CartContextValue = {
 };
 
 type Action =
-    | { type: "ADD"; payload: { product: Produce; quantity: number } }
+    | { type: "ADD"; payload: { product: Product; quantity: number } }
     | { type: "REMOVE"; payload: { id: string } }
     | { type: "INC"; payload: { id: string } }
     | { type: "DEC"; payload: { id: string } }
@@ -132,7 +132,7 @@ const CartContext = createContext<CartContextValue | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const [state, dispatch] = useReducer(cartReducer, initialState);
 
-    const addToCart = useCallback((product: Produce, quantity: number = 1) => {
+    const addToCart = useCallback((product: Product, quantity: number = 1) => {
         dispatch({ type: "ADD", payload: { product, quantity } });
     }, []);
 

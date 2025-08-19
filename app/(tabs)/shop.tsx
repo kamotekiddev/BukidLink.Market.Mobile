@@ -3,7 +3,7 @@ import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import SearchBtn from "@/components/SearchBtn";
-import ProduceList from "@/features/produce/ProduceList";
+import ProductList from "@/features/product/ProductList";
 
 export default function ShopScreen() {
     const router = useRouter();
@@ -20,7 +20,7 @@ export default function ShopScreen() {
                 </TouchableOpacity>
             </View>
             <View className="size-full">
-                <ProduceList />
+                <ProductList />
             </View>
         </SafeAreaView>
     );
