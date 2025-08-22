@@ -5,3 +5,13 @@ export interface Product {
     photoUrl?: string;
     price: number;
 }
+
+export interface GetAllProductsParams {
+    categoryId?: string;
+    search?: string;
+}
+
+export type Category = {
+    id: string;
+    name: string;
+};
