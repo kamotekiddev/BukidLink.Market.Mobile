@@ -22,13 +22,12 @@ export default function HomeHeader({
                 <TextInput
                     value={query}
                     onChangeText={onChangeQuery}
-                    placeholder="Search produce..."
+                    placeholder="Search products..."
                     placeholderTextColor="#9CA3AF"
-                    className="flex-1 h-11 text-base text-gray-900 ml-2"
+                    className="flex-1 h-11 items-center text-gray-900 ml-2"
                     returnKeyType="search"
                 />
             </View>
-
             <Pressable
                 onPress={onPressCart}
                 className="relative h-11 w-11 rounded-xl bg-green-600 items-center justify-center"

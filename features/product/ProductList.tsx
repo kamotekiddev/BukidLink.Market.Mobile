@@ -1,26 +1,58 @@
-import { useRouter } from "expo-router";
-import { FlatList } from "react-native";
-
-import { useGetAllProducts } from "./useGetAllProducts";
+import React from "react";
+import { View, ScrollView } from "react-native";
 import ProductCard from "./ProductCard";
+import { Product } from "@/features/product/types";
 
-export default function ProductList() {
-    const router = useRouter();
-    const { data: produce } = useGetAllProducts();
+type ExtendedProduce = Product & {
+    imageUrl?: string;
+    category?: string;
+    isFeatured?: boolean;
+    discountPercentage?: number;
+    price?: number;
+};
+
+type Props = {
+    data: ExtendedProduce[];
+    layout?: "grid" | "horizontal";
+    onAddToCart?: (item: ExtendedProduce) => void;
+};
+
+export default function ProductList({
+    data,
+    layout = "grid",
+    onAddToCart,
+}: Props) {
+    if (layout === "horizontal") {
+        return (
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingHorizontal: 16, gap: 12 }}
+                className="mt-1"
+            >
+                {data.map((item) => (
+                    <ProductCard
+                        key={item.id}
+                        item={item}
+                        onAddToCart={onAddToCart}
+                        compact={true}
+                    />
+                ))}
+            </ScrollView>
+        );
+    }
 
     return (
-        <FlatList
-            data={produce}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-                <ProductCard
-                    produce={item}
-                    onPress={() => router.push(`/produce/${item.id}`)}
-                />
-            )}
-            numColumns={2}
-            columnWrapperStyle={{ gap: 10 }}
-            contentContainerStyle={{ padding: 10 }}
-        />
+        <View className="mt-2 px-1">
+            <View className="flex-row flex-wrap justify-between gap-y-3 px-3">
+                {data.map((item) => (
+                    <ProductCard
+                        key={item.id}
+                        item={item}
+                        onAddToCart={onAddToCart}
+                    />
+                ))}
+            </View>
+        </View>
     );
 }

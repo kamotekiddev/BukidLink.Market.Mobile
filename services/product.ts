@@ -1,9 +1,16 @@
 import { client } from "./client";
 
-import { Product } from "@/features/product/types";
+import {
+    Product,
+    GetAllProductsParams,
+    Category,
+} from "@/features/product/types";
 
-export const getAllProduct = () =>
-    client.get<Product[]>("/produce").then((res) => res.data);
+export const getAllProduct = (params?: GetAllProductsParams) =>
+    client.get<Product[]>("/products", { params }).then((res) => res.data);
 
 export const getProductById = (produceId: string) =>
-    client.get<Product>(`/produce/${produceId}`).then((res) => res.data);
+    client.get<Product>(`/products/${produceId}`).then((res) => res.data);
+
+export const getProductCategories = () =>
+    client.get<Category[]>("/products/categories").then((res) => res.data);
