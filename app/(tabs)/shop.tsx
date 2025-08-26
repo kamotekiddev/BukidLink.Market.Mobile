@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     FlatList,
     SafeAreaView,
@@ -7,7 +7,6 @@ import {
     Text,
 } from "react-native";
 
-import HomeHeader from "@/features/home/HomeHeader";
 import CategoryFilter from "@/features/home/CategoryFilter";
 import ProductCard from "@/features/product/ProductCard";
 import ProductCardSkeleton from "@/features/product/ProductCardSkeleton";
@@ -17,14 +16,22 @@ import { useDelayLoading } from "@/hooks/useDelayLoading";
 import { useDebouncedValue } from "@/hooks/useDebounce";
 import { useGetProductCategories } from "@/features/product/useGetProductCategories";
 import { useGetAllProducts } from "@/features/product/useGetAllProducts";
+import { useLocalSearchParams } from "expo-router";
+import ProductHeader from "@/features/product/ProductHeader";
 
 const MIN_LOADING_DURATION = 500; // in milliseconds
 const MIN_PRODUCT_CARD_WIDTH = 176;
 const MIN_NUM_OF_COLUMNS = 2;
 
+type SearchParams = {
+    category: string;
+};
+
 export default function ShopScreen() {
+    const { category } = useLocalSearchParams<SearchParams>();
     const [query, setQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("All");
+
     const debouncedSearchQuery = useDebouncedValue(query, 500);
 
     const { width } = useWindowDimensions();
@@ -33,7 +40,9 @@ export default function ShopScreen() {
         Math.floor(width / MIN_PRODUCT_CARD_WIDTH)
     );
 
-    console.log(numOfColumns);
+    useEffect(() => {
+        if (category) setActiveCategory(category);
+    }, [category]);
 
     const { data: categories, isLoading: isCategoriesFetching } =
         useGetProductCategories();
@@ -59,7 +68,7 @@ export default function ShopScreen() {
     return (
         <SafeAreaView className="size-full bg-white">
             <View className="px-4 mb-2">
-                <HomeHeader
+                <ProductHeader
                     query={query}
                     onChangeQuery={setQuery}
                     cartCount={10}

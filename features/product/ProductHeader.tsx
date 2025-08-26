@@ -3,27 +3,29 @@ import { View, TextInput, Pressable, Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 type Props = {
+    query: string;
+    onChangeQuery: (value: string) => void;
     cartCount: number;
-    onSearchPress: () => void;
     onPressCart: () => void;
 };
 
-export default function HomeHeader({
+export default function ProductHeader({
+    query,
+    onChangeQuery,
     cartCount,
     onPressCart,
-    onSearchPress,
 }: Props) {
     return (
         <View className="flex-row items-center gap-3 mt-2">
             <View className="flex-1 flex-row items-center bg-gray-100 rounded-xl px-3">
                 <Ionicons name="search" size={20} color="#6B7280" />
                 <TextInput
+                    value={query}
+                    onChangeText={onChangeQuery}
                     placeholder="Search products..."
                     placeholderTextColor="#9CA3AF"
                     className="flex-1 h-11 items-center text-gray-900 ml-2"
                     returnKeyType="search"
-                    readOnly
-                    onPress={onSearchPress}
                 />
             </View>
             <Pressable
