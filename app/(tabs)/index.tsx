@@ -5,21 +5,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HomeHeader from "@/features/home/HomeHeader";
 import CategoryFilter from "@/features/home/CategoryFilter";
 import SectionHeader from "@/features/home/SectionHeader";
-
-import { HOME_CATEGORIES } from "@/features/home/mock";
 import ProductCard from "@/features/product/ProductCard";
+
 import { useGetAllProducts } from "@/features/product/useGetAllProducts";
+import { useRouter } from "expo-router";
+import { useGetProductCategories } from "@/features/product/useGetProductCategories";
 
 export default function HomeScreen() {
-    const [query, setQuery] = useState("");
-    const [activeCategory, setActiveCategory] = useState<string>("all");
+    const router = useRouter();
+    const [activeCategory] = useState<string>("All");
     const [cartCount, setCartCount] = useState(0);
 
     const { data: products, isLoading } = useGetAllProducts();
+    const { data: categories } = useGetProductCategories();
 
     const handleAddToCart = useCallback(() => {
         setCartCount((c) => c + 1);
     }, []);
+
+    const handleCategoryChange = (category: string) =>
+        router.push(`/shop?category=${category}`);
+
+    const handleSearchPress = () =>
+        router.push(`/shop?category=${activeCategory}`);
+
+    const handleCartPress = () => router.push("/cart");
 
     if (isLoading) return null;
 
@@ -27,15 +37,17 @@ export default function HomeScreen() {
         <SafeAreaView className="flex-1 bg-white">
             <View className="px-4 mb-2">
                 <HomeHeader
-                    query={query}
-                    onChangeQuery={setQuery}
                     cartCount={cartCount}
-                    onPressCart={() => {}}
+                    onPressCart={handleCartPress}
+                    onSearchPress={handleSearchPress}
                 />
                 <CategoryFilter
-                    categories={["all", ...HOME_CATEGORIES]}
+                    categories={[
+                        "All",
+                        ...(categories || []).map((c) => c.name),
+                    ]}
                     active={activeCategory}
-                    onChange={setActiveCategory}
+                    onChange={handleCategoryChange}
                 />
             </View>
             <ScrollView
