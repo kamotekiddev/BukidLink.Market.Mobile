@@ -1,5 +1,5 @@
 import { FlatList, ScrollView, View } from "react-native";
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import HomeHeader from "@/features/home/HomeHeader";
@@ -10,18 +10,15 @@ import ProductCard from "@/features/product/ProductCard";
 import { useGetAllProducts } from "@/features/product/useGetAllProducts";
 import { useRouter } from "expo-router";
 import { useGetProductCategories } from "@/features/product/useGetProductCategories";
+import { Product } from "@/features/product/types";
 
 export default function HomeScreen() {
     const router = useRouter();
     const [activeCategory] = useState<string>("All");
-    const [cartCount, setCartCount] = useState(0);
+    const [cartCount] = useState(0);
 
     const { data: products, isLoading } = useGetAllProducts();
     const { data: categories } = useGetProductCategories();
-
-    const handleAddToCart = useCallback(() => {
-        setCartCount((c) => c + 1);
-    }, []);
 
     const handleCategoryChange = (category: string) =>
         router.push(`/shop?category=${category}`);
@@ -30,6 +27,10 @@ export default function HomeScreen() {
         router.push(`/shop?category=${activeCategory}`);
 
     const handleCartPress = () => router.push("/cart");
+
+    const handleProductPres = (item: Product) => {
+        router.push(`/product/${item.id}`);
+    };
 
     if (isLoading) return null;
 
@@ -63,7 +64,7 @@ export default function HomeScreen() {
                         renderItem={({ item }) => (
                             <ProductCard
                                 item={item}
-                                onAddToCart={handleAddToCart}
+                                onPress={() => handleProductPres(item)}
                                 compact
                             />
                         )}
@@ -82,7 +83,7 @@ export default function HomeScreen() {
                         renderItem={({ item }) => (
                             <ProductCard
                                 item={item}
-                                onAddToCart={handleAddToCart}
+                                onPress={() => handleProductPres(item)}
                                 compact
                             />
                         )}
@@ -101,7 +102,7 @@ export default function HomeScreen() {
                         renderItem={({ item }) => (
                             <ProductCard
                                 item={item}
-                                onAddToCart={handleAddToCart}
+                                onPress={() => handleProductPres(item)}
                                 compact
                             />
                         )}

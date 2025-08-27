@@ -14,14 +14,10 @@ type ExtendedProduce = Product & {
 type Props = {
     data: ExtendedProduce[];
     layout?: "grid" | "horizontal";
-    onAddToCart?: (item: ExtendedProduce) => void;
+    onPress?: (item: ExtendedProduce) => void;
 };
 
-export default function ProductList({
-    data,
-    layout = "grid",
-    onAddToCart,
-}: Props) {
+export default function ProductList({ data, layout = "grid", onPress }: Props) {
     if (layout === "horizontal") {
         return (
             <ScrollView
@@ -34,8 +30,8 @@ export default function ProductList({
                     <ProductCard
                         key={item.id}
                         item={item}
-                        onAddToCart={onAddToCart}
                         compact={true}
+                        onPress={() => onPress?.(item)}
                     />
                 ))}
             </ScrollView>
@@ -49,7 +45,7 @@ export default function ProductList({
                     <ProductCard
                         key={item.id}
                         item={item}
-                        onAddToCart={onAddToCart}
+                        onPress={() => onPress?.(item)}
                     />
                 ))}
             </View>

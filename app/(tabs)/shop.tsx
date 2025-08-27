@@ -16,8 +16,10 @@ import { useDelayLoading } from "@/hooks/useDelayLoading";
 import { useDebouncedValue } from "@/hooks/useDebounce";
 import { useGetProductCategories } from "@/features/product/useGetProductCategories";
 import { useGetAllProducts } from "@/features/product/useGetAllProducts";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import ProductHeader from "@/features/product/ProductHeader";
+
+import { Product } from "@/features/product/types";
 
 const MIN_LOADING_DURATION = 500; // in milliseconds
 const MIN_PRODUCT_CARD_WIDTH = 176;
@@ -28,6 +30,7 @@ type SearchParams = {
 };
 
 export default function ShopScreen() {
+    const router = useRouter();
     const { category } = useLocalSearchParams<SearchParams>();
     const [query, setQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -64,6 +67,10 @@ export default function ShopScreen() {
     const showProductsSkeleton = useDelayLoading(isProductsFetching, {
         minDuration: MIN_LOADING_DURATION,
     });
+
+    const handleProductPres = (item: Product) => {
+        router.push(`/product/${item.id}`);
+    };
 
     return (
         <SafeAreaView className="size-full bg-white">
@@ -112,7 +119,11 @@ export default function ShopScreen() {
                         </View>
                     }
                     renderItem={({ item }) => (
-                        <ProductCard item={item} compact={numOfColumns > 2} />
+                        <ProductCard
+                            item={item}
+                            compact={numOfColumns > 2}
+                            onPress={() => handleProductPres(item)}
+                        />
                     )}
                 />
             )}
