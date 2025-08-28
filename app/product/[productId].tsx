@@ -45,7 +45,8 @@ export default function ProduceDetails() {
                             {product.name}
                         </Text>
                         <Text className="font-bold text-lg">
-                            {formatCurrency(product.price)}
+                            {formatCurrency(product.priceRange?.[0] || 0)}-
+                            {formatCurrency(product.priceRange?.[1] || 0)}
                         </Text>
                     </View>
                     <Text>{product.description}</Text>
